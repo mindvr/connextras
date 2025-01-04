@@ -1,0 +1,12 @@
+<div class="board" cdkDropListGroup cdkDropList
+     [cdkDropListData]="rows"
+     (cdkDropListDropped)="rearrange($event)">
+  <div *ngFor="let row of rows"
+       cdkDropList
+       cdkDropListOrientation="horizontal"
+       class="row"
+       [cdkDropListData]="row"
+       (cdkDropListDropped)="drop($event)" cdkDrag>
+    <div class="tile" *ngFor="let tile of row.tiles" cdkDrag>{{ tile }}</div>
+  </div>
+</div>
