@@ -10,14 +10,17 @@ export interface Row {
   providedIn: 'root'
 })
 export class ConnectionsBoardService {
-  private rowsSubject: BehaviorSubject<Row[]> = new BehaviorSubject<Row[]>([
-    {id: 'A', tiles: ['CHECK', 'CLOCK', 'CRUMPLE', 'CROSS']},
-    {id: 'B', tiles: ['HOOK', 'TICK', 'BUCKLE', 'ANT']},
-    {id: 'C', tiles: ['BALL', 'STRIKE', 'MELTING', 'WAD']},
-    {id: 'D', tiles: ['SNAP', 'SCRUNCH', 'BRANCH', 'CLIP']}
-  ]);
+  private rowsSubject: BehaviorSubject<Row[]>;
 
   constructor() {
+    const savedRows = localStorage.getItem('rows');
+    const initialRows: Row[] = savedRows ? JSON.parse(savedRows) : [
+      { id: 'A', tiles: ['CHECK', 'CLOCK', 'CRUMPLE', 'CROSS'] },
+      { id: 'B', tiles: ['HOOK', 'TICK', 'BUCKLE', 'ANT'] },
+      { id: 'C', tiles: ['BALL', 'STRIKE', 'MELTING', 'WAD'] },
+      { id: 'D', tiles: ['SNAP', 'SCRUNCH', 'BRANCH', 'CLIP'] }
+    ];
+    this.rowsSubject = new BehaviorSubject<Row[]>(initialRows);
   }
 
   rows(): Observable<Row[]> {
@@ -26,5 +29,6 @@ export class ConnectionsBoardService {
 
   setRows(newRows: Row[]): void {
     this.rowsSubject.next([...newRows]);
+    localStorage.setItem('rows', JSON.stringify(newRows));
   }
 }
