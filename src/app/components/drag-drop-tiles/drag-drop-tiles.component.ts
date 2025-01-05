@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   CdkDragDrop,
   transferArrayItem,
@@ -8,6 +8,8 @@ import {
   CdkDropListGroup
 } from '@angular/cdk/drag-drop';
 import {NgForOf} from '@angular/common';
+import {ConnectionsBoardService, Row} from '../../service/connections-board.service';
+
 
 @Component({
   selector: 'app-drag-drop-tiles',
@@ -20,17 +22,20 @@ import {NgForOf} from '@angular/common';
   ],
   styleUrls: ['./drag-drop-tiles.component.css']
 })
-export class DragDropTilesComponent {
+export class DragDropTilesComponent implements OnInit {
 
-  rows = [
-    {"id": "A", "tiles": ["CHECK", "CLOCK", "CRUMPLE", "CROSS"]},
-    {"id": "B", "tiles": ["HOOK", "TICK", "BUCKLE", "ANT"]},
-    {"id": "C", "tiles": ["BALL", "STRIKE", "MELTING", "WAD"]},
-    {"id": "D", "tiles": ["SNAP", "SCRUNCH", "BRANCH", "CLIP"]},
-  ]
+  rows: Row[] = []
 
-  drop(event: CdkDragDrop<{ id: string; tiles: string[] }, any>) {
-    console.log(event);
+  constructor(private connectionsBoard: ConnectionsBoardService) {
+  }
+
+  ngOnInit(): void {
+    this.connectionsBoard.rows().subscribe((rows: Row[]) => {
+      this.rows = rows;
+    })
+  }
+
+  drop(event: CdkDragDrop<Row, any>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data.tiles, event.previousIndex, event.currentIndex);
     } else {
@@ -39,12 +44,11 @@ export class DragDropTilesComponent {
         event.previousIndex,
         event.currentIndex);
     }
+    this.connectionsBoard.setRows(this.rows);
   }
 
-  rearrange(event: CdkDragDrop<({
-    id: string;
-    tiles: string[]
-  })[], any>) {
+  rearrange(event: CdkDragDrop<Row[], any>) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    this.connectionsBoard.setRows(this.rows);
   }
 }
