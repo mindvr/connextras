@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {DragDropTilesComponent} from '../drag-drop-tiles/drag-drop-tiles.component';
+import { DragDropTilesComponent } from './components/drag-drop-tiles/drag-drop-tiles.component';
 
 @Component({
   selector: 'app-root',
