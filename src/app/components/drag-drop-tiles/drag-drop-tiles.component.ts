@@ -4,11 +4,11 @@ import {
   transferArrayItem,
   moveItemInArray,
   CdkDropList,
-  CdkDrag,
   CdkDropListGroup
 } from '@angular/cdk/drag-drop';
 import {NgForOf} from '@angular/common';
 import {ConnectionsBoardService, Row} from '../../service/connections-board.service';
+import {ConnectionsRowComponent} from '../connections-row/connections-row.component';
 
 
 @Component({
@@ -17,8 +17,8 @@ import {ConnectionsBoardService, Row} from '../../service/connections-board.serv
   imports: [
     CdkDropList,
     NgForOf,
-    CdkDrag,
-    CdkDropListGroup
+    CdkDropListGroup,
+    ConnectionsRowComponent
   ],
   styleUrls: ['./drag-drop-tiles.component.css']
 })
@@ -35,7 +35,7 @@ export class DragDropTilesComponent implements OnInit {
     })
   }
 
-  drop(event: CdkDragDrop<Row, any>) {
+  drop= (event: CdkDragDrop<Row, any>) => {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data.tiles, event.previousIndex, event.currentIndex);
     } else {
