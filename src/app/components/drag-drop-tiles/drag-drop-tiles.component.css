@@ -2,7 +2,6 @@
 .board {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* spacing between rows */
   margin: 16px;
 }
 
@@ -10,45 +9,31 @@
 .row {
   display: flex;
   flex-wrap: wrap;
-  padding: 8px;
   min-height: 100px;
-  border: 2px dashed #ccc; /* dashed border to indicate drop area */
 }
 
-/* Tile styling */
 .tile {
-  width: 80px;
-  height: 80px;
-  background-color: #6200ea;
-  color: #fff;
+  width: 100px;
+  height: 100px;
+  background-color: #D6D6C2;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif; /* set font family to sans-serif */
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 4px;
   font-weight: bold;
+  font-size: clamp(10px, 1.5vw, 18px);
   text-transform: uppercase;
   cursor: move; /* show grab cursor */
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
-/*!* Optional: styling while dragging *!*/
-/*.cdk-drag-preview {*/
-/*  background-color: #b39ddb; !* lighter shade to indicate dragging *!*/
-/*  opacity: 0.8;*/
-/*  box-shadow: 0 3px 6px rgba(0,0,0,0.16);*/
-/*  border-radius: 4px;*/
-/*}*/
-
-/*!* Optional: hovered drop list styling *!*/
-/*.cdk-drop-list-dragging:hover {*/
-/*  background-color: #f4f4f4;*/
-/*}*/
-
-/* Animate items as they're being sorted. */
+/* Tile styling */
 
 .cdk-drag-preview {
   box-sizing: border-box;
-  border-radius: 4px;
+  border-radius: 6px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
   0 8px 10px 1px rgba(0, 0, 0, 0.14),
   0 3px 14px 2px rgba(0, 0, 0, 0.12);
