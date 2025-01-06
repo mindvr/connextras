@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Row} from '../../service/connections-board.service';
+import {Row, Group} from '../../service/connections-board.service';
 import {CdkDrag, CdkDropList, CdkDragDrop} from '@angular/cdk/drag-drop';
 import {NgForOf} from '@angular/common';
 
@@ -15,7 +15,7 @@ import {NgForOf} from '@angular/common';
 })
 export class ConnectionsRowComponent {
   @Input()
-  row: Row = {id: '', tiles: []};
+  row: Row = {id: '', group: Group.None, tiles: []};
 
   @Input()
   drop!: (event: CdkDragDrop<Row, any>) => void;
