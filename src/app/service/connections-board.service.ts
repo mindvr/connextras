@@ -50,4 +50,13 @@ export class ConnectionsBoardService {
             this.setRows(rows);
         }
     }
+
+    setComment(rowId: string, comment: string): void {
+        const rows = this.rowsSubject.getValue();
+        const row = rows.find(r => r.id === rowId);
+        if (row) {
+            row.comment = comment;
+            this.setRows(rows);
+        }
+    }
 }
