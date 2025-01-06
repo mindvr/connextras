@@ -1,14 +1,15 @@
 import {Component, Input} from '@angular/core';
-import {Row, Group} from '../../service/connections-board.service';
+import {Row, Group, ConnectionsBoardService} from '../../service/connections-board.service';
 import {CdkDrag, CdkDropList, CdkDragDrop} from '@angular/cdk/drag-drop';
-import {NgForOf} from '@angular/common';
+import {NgClass, NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-connections-row',
   imports: [
     CdkDropList,
     CdkDrag,
-    NgForOf
+    NgForOf,
+    NgClass
   ],
   templateUrl: './connections-row.component.html',
   styleUrl: './connections-row.component.css'
@@ -19,4 +20,12 @@ export class ConnectionsRowComponent {
 
   @Input()
   drop!: (event: CdkDragDrop<Row, any>) => void;
+
+  constructor(private connectionsBoard: ConnectionsBoardService) {}
+
+  setGroup(rowId: string, group: Group): void {
+    this.connectionsBoard.setGroup(rowId, group);
+  }
+
+  protected readonly Group = Group;
 }

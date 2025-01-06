@@ -1,7 +1,29 @@
 <div cdkDropList
      cdkDropListOrientation="horizontal"
      class="row"
+     [ngClass]="{
+       'group-yellow': row.group === Group.Yellow,
+       'group-green': row.group === Group.Green,
+       'group-blue': row.group === Group.Blue,
+       'group-purple': row.group === Group.Purple
+     }"
      [cdkDropListData]="row"
      (cdkDropListDropped)="drop($event)" cdkDrag>
-  <div class="tile" *ngFor="let tile of row.tiles" cdkDrag>{{ tile }}</div>
+  <div class="tile" *ngFor="let tile of row.tiles" cdkDrag
+       [ngClass]="{
+         'tile-yellow': row.group === Group.Yellow,
+         'tile-green': row.group === Group.Green,
+         'tile-blue': row.group === Group.Blue,
+         'tile-purple': row.group === Group.Purple
+       }">{{ tile }}</div>
+  <div class="comment-tile">
+    <div>{{ row.comment }}</div>
+    <div class="button-container">
+      <button (click)="setGroup(row.id, Group.Yellow)">🟨</button>
+      <button (click)="setGroup(row.id, Group.Green)">🟩</button>
+      <button (click)="setGroup(row.id, Group.Blue)">🟦</button>
+      <button (click)="setGroup(row.id, Group.Purple)">🟪</button>
+      <button (click)="setGroup(row.id, Group.None)">⬜</button>
+    </div>
+  </div>
 </div>
