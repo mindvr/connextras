@@ -1,7 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {Row, Group, ConnectionsBoardService} from '../../service/connections-board.service';
 import {CdkDrag, CdkDropList, CdkDragDrop} from '@angular/cdk/drag-drop';
-import {NgClass, NgForOf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-connections-row',
@@ -9,7 +10,9 @@ import {NgClass, NgForOf} from '@angular/common';
     CdkDropList,
     CdkDrag,
     NgForOf,
-    NgClass
+    NgClass,
+    FormsModule,
+    NgIf
   ],
   templateUrl: './connections-row.component.html',
   styleUrl: './connections-row.component.css'
@@ -21,6 +24,11 @@ export class ConnectionsRowComponent {
   @Input()
   drop!: (event: CdkDragDrop<Row, any>) => void;
 
+  isEditingComment: boolean = false;
+  editedComment: string = '';
+  @ViewChild('commentInput', { static: false }) commentInputRef?: ElementRef<HTMLInputElement>;
+
+
   constructor(private connectionsBoard: ConnectionsBoardService) {}
 
   setGroup(rowId: string, group: Group): void {
@@ -28,4 +36,26 @@ export class ConnectionsRowComponent {
   }
 
   protected readonly Group = Group;
+
+  startEditingComment(): void {
+    this.isEditingComment = true;
+    this.editedComment = this.row.comment || '';
+
+    setTimeout(() => {
+      if (this.commentInputRef?.nativeElement) {
+        this.commentInputRef.nativeElement.focus();
+      }
+    }, 10);
+  }
+
+  saveComment(): void {
+    this.isEditingComment = false;
+    this.connectionsBoard.setComment(this.row.id, this.editedComment);
+  }
+
+  onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.saveComment();
+    }
+  }
 }
