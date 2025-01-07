@@ -9,21 +9,38 @@
      }"
      [cdkDropListData]="row"
      (cdkDropListDropped)="drop($event)" cdkDrag>
-  <div class="tile" *ngFor="let tile of row.tiles" cdkDrag
-       [ngClass]="{
+    <div class="tile" *ngFor="let tile of row.tiles" cdkDrag
+         [ngClass]="{
          'tile-yellow': row.group === Group.Yellow,
          'tile-green': row.group === Group.Green,
          'tile-blue': row.group === Group.Blue,
          'tile-purple': row.group === Group.Purple
-       }">{{ tile }}</div>
-  <div class="comment-tile">
-    <div>{{ row.comment }}</div>
-    <div class="button-container">
-      <button (click)="setGroup(row.id, Group.Yellow)">🟨</button>
-      <button (click)="setGroup(row.id, Group.Green)">🟩</button>
-      <button (click)="setGroup(row.id, Group.Blue)">🟦</button>
-      <button (click)="setGroup(row.id, Group.Purple)">🟪</button>
-      <button (click)="setGroup(row.id, Group.None)">⬜</button>
+       }">{{ tile }}
     </div>
-  </div>
+    <div class="comment-tile">
+        <div
+                class="comment-content"
+                (dblclick)="startEditingComment()"
+                *ngIf="!isEditingComment"
+        >
+            {{ row.comment || ' ' }}
+        </div>
+
+        <div class="comment-content" *ngIf="isEditingComment">
+            <input
+                #commentInput
+                class="comment-input"
+                [(ngModel)]="editedComment"
+                (blur)="saveComment()"
+                (keydown)="onKeydown($event)"
+            />
+        </div>
+        <div class="button-container">
+            <button (click)="setGroup(row.id, Group.Yellow)">🟨</button>
+            <button (click)="setGroup(row.id, Group.Green)">🟩</button>
+            <button (click)="setGroup(row.id, Group.Blue)">🟦</button>
+            <button (click)="setGroup(row.id, Group.Purple)">🟪</button>
+            <button (click)="setGroup(row.id, Group.None)">⬜</button>
+        </div>
+    </div>
 </div>

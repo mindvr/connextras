@@ -28,10 +28,12 @@
   background-color: #D6D6C2;
   color: #000;
   font-family: Arial, Helvetica, sans-serif;
+  /* CHANGED: Ensure the tile can be split between the comment area and the buttons */
   display: flex;
   flex-direction: column;
+  /* CHANGED: leave space for comment area + buttons */
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch; /* Let children fill the width */
   margin: 4px;
   font-weight: bold;
   font-size: clamp(10px, 1.6vw, 18px);
@@ -41,13 +43,26 @@
   box-sizing: border-box; /* Ensure padding is included in the width and height */
 }
 
-.comment-tile div {
-  margin-bottom: 0.5em;
+/* CHANGED: A container that fills the top portion for both read-only + editing states */
+.comment-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer; /* visually indicate you can double-click */
 }
+
+/* If you prefer the text to align exactly like tiles, you can remove the cursor if desired */
+/* .comment-content {
+  cursor: default;
+} */
 
 .comment-tile .button-container {
   display: flex;
   justify-content: center;
+  /* CHANGED: stop dblclick from bubbling up to start editing */
+  /* covered in template with (dblclick)="$event.stopPropagation()" */
 }
 
 .comment-tile button {
@@ -62,12 +77,29 @@
   background-color: #e0e0e0;
 }
 
+/* CHANGED: Match input style to tile text */
+.comment-input {
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: clamp(10px, 1.6vw, 18px);
+  text-transform: uppercase;
+  color: #000;
+  background-color: #D6D6C2;
+  border: none;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none; /* remove focus outlines if desired */
+}
+
+/* Drag & drop styles (unchanged) */
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 6px;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  box-shadow:
+          0 5px 5px -3px rgba(0, 0, 0, 0.2),
+          0 8px 10px 1px rgba(0, 0, 0, 0.14),
+          0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-placeholder {
@@ -86,7 +118,7 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-
+/* Grouping background colors */
 .group-yellow {
   background-color: #F6E27F;
 }
