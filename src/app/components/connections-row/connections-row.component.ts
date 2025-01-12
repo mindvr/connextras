@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {Row, Group, ConnectionsBoardService} from '../../service/connections-board.service';
+import {Row, Group, AttemptResult, ConnectionsBoardService} from '../../service/connections-board.service';
 import {CdkDrag, CdkDropList, CdkDragDrop} from '@angular/cdk/drag-drop';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from "@angular/forms";
@@ -19,7 +19,7 @@ import {FormsModule} from "@angular/forms";
 })
 export class ConnectionsRowComponent {
   @Input()
-  row: Row = {id: '', group: Group.None, tiles: []};
+  row: Row = {id: '', invalid: false, group: Group.None, tiles: []};
 
   @Input()
   drop!: (event: CdkDragDrop<Row, any>) => void;
@@ -36,6 +36,7 @@ export class ConnectionsRowComponent {
   }
 
   protected readonly Group = Group;
+  protected readonly AttemptResult = AttemptResult;
 
   startEditingComment(): void {
     this.isEditingComment = true;
@@ -51,6 +52,10 @@ export class ConnectionsRowComponent {
   saveComment(): void {
     this.isEditingComment = false;
     this.connectionsBoard.setComment(this.row.id, this.editedComment);
+  }
+
+  saveResult(rowId: string, result: AttemptResult): void {
+    this.connectionsBoard.saveResult(rowId, result);
   }
 
   onKeydown(event: KeyboardEvent): void {
