@@ -22,14 +22,14 @@ export class SaveBoardComponent {
             .map((item) => item.toUpperCase());
         let rows: Row[] = board.reduce((acc: Row[], item, index) => {
             if (index % 4 === 0) {
-                acc.push({id: `Row${acc.length + 1}`, tiles: [], group: Group.None, comment: ''});
+                acc.push({id: `Row${acc.length + 1}`, invalid: false, tiles: [], group: Group.None, comment: ''});
             }
             acc[acc.length - 1].tiles.push(item);
             return acc;
         }, []);
 
         // Add one empty row at the end
-        rows.push({id: `Row${rows.length + 1}`, tiles: [], group: Group.None, comment: ''});
+        rows.push({id: `Row${rows.length + 1}`, invalid:false, tiles: [], group: Group.None, comment: ''});
 
         // Update the rows in the service
         this.connectionsBoard.setRows(rows);

@@ -135,6 +135,10 @@
   background-color: #C39CC3;
 }
 
+.group-invalid {
+  background-color: #925a5a;
+}
+
 .tile-yellow {
   background-color: #F6E27F;
 }
